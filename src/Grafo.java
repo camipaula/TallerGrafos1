@@ -94,7 +94,6 @@ public class Grafo {
         int contador=0;
         // Ejecutamos el BFS mientras la cola no esté vacía
         while (!cola.isEmpty()) {
-            System.out.println("Cuantas veces entra aqui: "+ contador);
             contador++;
             Vertice vertice = cola.poll();
             resultado.append(vertice.getDato()).append("\n");

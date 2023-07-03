@@ -32,6 +32,13 @@ public class Grafos extends JFrame{
         this.setContentPane(JPanel);
         this.pack();
         quemarButton.setEnabled(false);
+        insertarButton.setEnabled(false);
+        insertarButton1.setEnabled(false);
+        mostrarGrafoButton.setEnabled(false);
+        DFSButton.setEnabled(false);
+        BFSButton.setEnabled(false);
+        dijkstraButton.setEnabled(false);
+
 
         crearButton.addActionListener(new ActionListener() {
             @Override
@@ -42,10 +49,22 @@ public class Grafos extends JFrame{
                     txtPeso.setText("1");
                     txtPeso.setEnabled(false);
                     quemarButton.setEnabled(true);
+                    insertarButton.setEnabled(true);
+                    insertarButton1.setEnabled(true);
+                    mostrarGrafoButton.setEnabled(true);
+                    DFSButton.setEnabled(true);
+                    BFSButton.setEnabled(true);
+                    dijkstraButton.setEnabled(true);
                 }else{
                     txtPeso.setText("");
                     txtPeso.setEnabled(true);
                     quemarButton.setEnabled(true);
+                    insertarButton.setEnabled(true);
+                    insertarButton1.setEnabled(true);
+                    mostrarGrafoButton.setEnabled(true);
+                    DFSButton.setEnabled(true);
+                    BFSButton.setEnabled(true);
+                    dijkstraButton.setEnabled(true);
                 }
                 seleccionadoDireccion=direccionadoCheckBox.isSelected();
                 g=new Grafo(seleccionadoDireccion,seleccionadoPeso);
@@ -74,7 +93,6 @@ public class Grafos extends JFrame{
                         g.addVertice(txtVertice.getText());
                         cargarComboBox();
                         JOptionPane.showMessageDialog(null, "Vertice añadido con éxito");
-                        System.out.printf("Tamaño al imprimir: "+g.getVertices().size());
                     }else{
                         JOptionPane.showMessageDialog(null, "Ya hay un vertice con ese nombre,pruebe con otro");
                     }
