@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.PriorityQueue;
+
 public class Grafo {
     private ArrayList<Vertice> vertices;
     private boolean esDirigido;
@@ -103,6 +108,39 @@ public class Grafo {
             }
         }
         return resultado.toString();
+    }
+
+    public Dictionary[] Dijsktra(Vertice start) {
+        Dictionary<String, Integer> distances = new Hashtable<>();
+        Dictionary<String, Vertice> previous = new Hashtable<>();
+        PriorityQueue<QueueObject> queue = new PriorityQueue<>();
+
+        Vertice startingVertex = vertices.get(vertices.indexOf(start));
+
+        queue.add(new QueueObject(startingVertex, 0));
+
+        for (Vertice v : vertices) {
+            if (v != startingVertex) {
+                distances.put(v.getDato(), Integer.MAX_VALUE);
+            }
+            previous.put(v.getDato(), new Vertice("NULL"));
+        }
+
+        distances.put(startingVertex.getDato(), 0);
+
+        while (queue.size() != 0) {
+            Vertice current = queue.poll().getVertex();
+            for (Arista e : current.getAristas()) {
+                Integer alternative = distances.get(current.getDato()) + e.getPeso();
+                String neighborValue = e.getVerticeFinal().getDato();
+                if (alternative < distances.get(neighborValue)) {
+                    distances.put(neighborValue, alternative);
+                    previous.put(neighborValue, current);
+                    queue.add(new QueueObject(e.getVerticeFinal(), distances.get(neighborValue)));
+                }
+            }
+        }
+        return new Dictionary[]{distances, previous};
     }
 
 

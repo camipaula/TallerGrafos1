@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
 
 public class Grafos extends JFrame{
     private javax.swing.JPanel JPanel;
@@ -29,7 +31,7 @@ public class Grafos extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(JPanel);
         this.pack();
-
+        quemarButton.setEnabled(false);
 
         crearButton.addActionListener(new ActionListener() {
             @Override
@@ -39,9 +41,11 @@ public class Grafos extends JFrame{
                 if(!seleccionadoPeso){
                     txtPeso.setText("1");
                     txtPeso.setEnabled(false);
+                    quemarButton.setEnabled(true);
                 }else{
                     txtPeso.setText("");
                     txtPeso.setEnabled(true);
+                    quemarButton.setEnabled(true);
                 }
                 seleccionadoDireccion=direccionadoCheckBox.isSelected();
                 g=new Grafo(seleccionadoDireccion,seleccionadoPeso);
@@ -51,7 +55,15 @@ public class Grafos extends JFrame{
         quemarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                g.addVertice("a");
+                g.addVertice("b");
+                g.addVertice("c");
+                g.addArista("a","b",4);
+                g.addArista("a","c",3);
+                g.addArista("b","c",7);
+                cargarComboBox();
+                JOptionPane.showMessageDialog(null, "Datos quemados");
+                quemarButton.setEnabled(false);
             }
         });
         insertarButton.addActionListener(new ActionListener() {
@@ -107,7 +119,28 @@ public class Grafos extends JFrame{
         BFSButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textArea1.setText(g.breadthFirstTraversal(g.getVertexByValue(VInicialCBox.getSelectedItem().toString())));
+                textArea1.setText(g.breadthFirstTraversal(g.getVertexByValue(VInicialCBox.getSelectedItem().toString())));            }
+        });
+        dijkstraButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Dictionary[] result = g.Dijsktra(g.getVertexByValue(VInicialCBox.getSelectedItem().toString()));
+                Dictionary<String, Integer> distances = result[0];
+                Dictionary<String, Vertice> previous = result[1];
+
+                StringBuilder resultText = new StringBuilder();
+                Enumeration<String> keys = distances.keys(); // Obtener las claves usando keys()
+                while (keys.hasMoreElements()) {
+                    String vertexData = keys.nextElement();
+                    int distance = distances.get(vertexData);
+                    Vertice previousVertex = previous.get(vertexData);
+
+                    resultText.append("Vertice: ").append(vertexData).append("\n");
+                    resultText.append("Distancia: ").append(distance).append("\n");
+                    resultText.append("Vértice previo: ").append(previousVertex.getDato()).append("\n");
+                    resultText.append("-------------------\n");
+                }
+                textArea1.setText(resultText.toString());
             }
         });
     }
